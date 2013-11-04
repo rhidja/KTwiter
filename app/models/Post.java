@@ -5,8 +5,8 @@ import java.util.List;
 
 import models.Member;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Id;
@@ -19,6 +19,7 @@ import play.db.ebean.Model;
 @Table(name="Post")
 public class Post extends Model {
     @Id
+    @GeneratedValue
 	private int id;
     private String title;
     private String content;
@@ -29,9 +30,14 @@ public class Post extends Model {
     @OneToMany
     private List<Comment> comments;
     @ManyToOne
-    private Member member;
+    @JoinColumn(name="login")
+    private Member autor;
+	
     
-	public int getId() {
+    public static Finder<Long, Post> find = new Finder<Long, Post>(Long.class, Post.class);
+    
+    // Getters and Setters  ==============================================================================
+    public int getId() {
 		return id;
 	}
 	public void setId(int id) {
@@ -67,12 +73,27 @@ public class Post extends Model {
 	public void setComments(List<Comment> comments) {
 		this.comments = comments;
 	}
-	//public Member getAuthor() {
-		//return author;
-	//}
-	//public void setAuthor(Member author) {
-		//this.author = author;
-	//}
-
-    
+	public Member getAutor() {
+		return autor;
+	}
+	public void setAutor(Member autor) {
+		this.autor = autor;
+	}
+	
+	// Methodes statics  ================================================================================
+	
+	public static List<Post> all(){
+		return find.all();
+	}
+	
+	public static List<Post> listPosts (String login, String wall){
+		return find.where().eq("login",login).eq("wall",wall).findList();
+	}
+	
+	public static Post create(Post post){
+		post.postDate = new Date();
+		post.save();
+		return post;
+	}
+	
 }

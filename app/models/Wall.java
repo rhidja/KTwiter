@@ -3,6 +3,7 @@ package models;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -13,6 +14,7 @@ import play.db.ebean.Model;
 @Table (name="Wall")
 public class Wall extends Model{
 	@Id
+	@GeneratedValue
 	private int id;
 	private String nom;
 	@OneToMany

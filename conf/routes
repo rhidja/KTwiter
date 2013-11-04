@@ -8,9 +8,18 @@ GET     /                           controllers.Application.index()
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
 
+# Get members home page.
+GET		/members					controllers.CtrlMember.members()
+
 GET     /signup                   	controllers.CtrlMember.signup()
 POST    /signup                   	controllers.CtrlMember.submitMember()
 
-POST    /signin						controllers.CtrlMember.signin()
+GET 	/signin						controllers.CtrlMember.signin()
+POST    /signin						controllers.CtrlMember.submitSignin()
 
 GET     /logout						controllers.CtrlMember.logout()
+
+GET     /about						controllers.CtrlMember.about()
+
+GET     /post						controllers.CtrlPost.listPost()
+POST    /post						controllers.CtrlPost.submitPost()

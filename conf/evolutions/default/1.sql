@@ -27,7 +27,7 @@ create table Post (
   content                   varchar(255),
   post_date                 timestamp,
   nom                       integer,
-  member_id                 integer,
+  login                     integer,
   constraint pk_Post primary key (id))
 ;
 
@@ -51,8 +51,8 @@ alter table Comment add constraint fk_Comment_member_2 foreign key (member_id) r
 create index ix_Comment_member_2 on Comment (member_id);
 alter table Post add constraint fk_Post_wall_3 foreign key (nom) references Wall (id) on delete restrict on update restrict;
 create index ix_Post_wall_3 on Post (nom);
-alter table Post add constraint fk_Post_member_4 foreign key (member_id) references Member (id) on delete restrict on update restrict;
-create index ix_Post_member_4 on Post (member_id);
+alter table Post add constraint fk_Post_autor_4 foreign key (login) references Member (id) on delete restrict on update restrict;
+create index ix_Post_autor_4 on Post (login);
 
 
 

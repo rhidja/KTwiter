@@ -1,0 +1,18 @@
+@(posts: List[Post])
+
+<table class="table table-hover">	
+	<tr>
+		<td>Num</td>
+		<td>Login</td>
+		<td>Post</td>
+		<td>Date</td>
+	</tr>
+	@for((post, i) <- posts.zipWithIndex) {
+	<tr>
+		<td>@i</td>
+		<td>@post.getAutor.getLogin</td>
+		<td>@post.getContent</td>
+		<td>@post.getPostDate</td>
+	</tr>
+	}
+</table>

@@ -1,8 +1,8 @@
 package models;
 
-import java.util.Date;
 import java.util.List;
 
+import models.Post;
 
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
@@ -10,14 +10,12 @@ import javax.persistence.Table;
 import javax.persistence.Id;
 import javax.persistence.GeneratedValue;
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
 
 import play.db.ebean.Model;
 
 @Entity
 @Table(name="Member")
 public class Member extends Model{
-
 	@Id
 	@GeneratedValue
 	private int id;
@@ -31,7 +29,6 @@ public class Member extends Model{
 	@OneToMany
     private List<Comment> comments;
 	
-	protected static EntityManager em;
 	public static Finder<Long, Member> find = new Finder<Long, Member>(Long.class, Member.class);
 	
 	
@@ -108,17 +105,16 @@ public class Member extends Model{
 		return find.all();
 	}
 	
-	public static int countRow(){
-		return find.findRowCount();
+	public static Member getMember(String login){
+		return find.where().eq("login",login).findUnique();
 	}
-
 	
-	public static List<Member> exist (String email, String motPasse){
-		return find.where().eq("email",email).eq("motPasse",motPasse).findList();
+	public static Boolean isMember (String login, String motPasse){
+		return find.where().eq("login",login).eq("motPasse",motPasse).findRowCount()>0;
 	}
 	
 	public static Member create(Member member){
-		//member.save();
+		member.save();
 		return null;
 	}
 }

@@ -3,10 +3,13 @@ package controllers;
 import java.util.List;
 
 import models.Member;
+import models.Post;
+import models.User;
+import akka.io.Tcp.Bind;
 import controllers.Application;
+import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
-
 import views.html.*;
 import views.html.members.*;
 
@@ -14,12 +17,30 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 public class CtrlMember extends Controller {
 	
+	static Form<User> userForm = Form.form(User.class);
+	static String login; 
+	static String motPasse;       
+	
+	public static Result members() {
+    	List <Post> posts;
+    	posts  = Post.all();
+		return ok(members.render(login,posts));
+    }
+	
 	public static Result signup() {	
         return ok(signup.render());
     }
 	
+	public static Result about() {	
+        return ok(about.render());
+    }
+	
+	public static Result signin() {	
+        return ok(signin.render(userForm));
+    }	
+	
 	public static Result logout() {	
-        return ok(signin.render());
+        return ok(signin.render(userForm));
     }
 	
     public static Result submitMember() {
@@ -39,18 +60,16 @@ public class CtrlMember extends Controller {
         return badRequest();
     }
     
-    public static Result signin(){
+    public static Result submitSignin(){
     	JsonNode body = request().body().asJson();
-    	String email = body.get("email").toString();
-    	String motPasse = body.get("motPasse").toString();
-    	List <Member> listMember = Member.exist(email, motPasse);
-    	if(listMember.size()==0){
-    		return ok(signin.render());
+    	login = body.get("login").toString();
+    	motPasse = body.get("motPasse").toString();
+    	if(Member.isMember(login, motPasse)){
+    		session("Connected",login);
+    		return ok("ok");
     	}
-    	else {
-    		String login = session("connected");
-    		login = listMember.get(0).getLogin();
-    		return ok(logout.render(login));
+    	else{
+    		return ok("nok");
     	}
     }
     

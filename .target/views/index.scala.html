@@ -1,13 +1,6 @@
 @(members: List[Member])
-@main("Ram") {
-	<header> @header() </header>
-	<div id="id_div_posts" class="span12">
-		<form class="form">
-			<input id="idEmail" type="text" class="input-small  span12" placeholder="What's on your mind?">
-			<button type="submit" class="btn pull-right" >Post!</button>
-		</form>
-
-	</div>
+@main("KTwiter") {
+	<header> @header()</header>
 	<section>
 		<article class="span12">@article(members)</article>
 		<aside>@aside()</aside>

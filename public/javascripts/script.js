@@ -1,12 +1,29 @@
 $(document).ready(function($) {
 	
+	$(".btn-admin").click(function(e) {
+    	$('article').load('/admin');
+    });
 	$(".btn-signup").click(function(e) {
     	$('article').load('/signup');
     });
-	
+	$(".btn-signin").click(function(e) {
+    	$('article').load('/signin');
+    });	
+	$(".btn-about").click(function(e) {
+    	$('article').load('/about');
+    });
 	$(".btn-logout").click(function(e) {
 		$("#id_login").load('/logout');
     });
+	
+	$(".btn-contact").click(function(e) {
+        $.ajax({
+        	type : 'GET',
+        	url : '/signin',
+        	
+        });
+	});
+	
 	
 	$(".btn-submit-member").click(function(e) {
 		$nom = $("#inputNom").val();
@@ -26,20 +43,37 @@ $(document).ready(function($) {
         return false;
 	});
 	
-	$(".btn-signin").click(function(e) {
-		$email = $("#idEmail").val();
-        $motPasse = $("#idPassword").val();
+	$(".btn-signin-submit").click(function(e) {
+		$login = $("#inputLogin").val();
+        $motPasse = $("#inputPassword").val();
         $.ajax({
                 type : 'POST',
                 url : '/signin',
                 contentType : "application/json; charset=UTF-8",
-                data : JSON.stringify({"email" : $email,"motPasse" : $motPasse}),
+                data : JSON.stringify({"login" : $login,"motPasse" : $motPasse}),
                 success : function(data) {
-                        $("#id_login").html(data);        
-                }
-        		
+                	if(data=="ok"){
+                		window.location = '/members';
+                	}
+                }	
         });
         return false;
 	});
+	
+	$(".btn-post-submit").click(function(e) {
+		$auteur = $("#inputAuteur").val();
+        $post = $("#inputPost").val();
+        $.ajax({
+                type : 'POST',
+                url : '/post',
+                contentType : "application/json; charset=UTF-8",
+                data : JSON.stringify({"auteur" : $auteur,"post" : $post}),
+                success : function(data) {
+                	$("#div_posts").html(data);
+                }
+        });
+        return false;
+	});
+	
  
 });
