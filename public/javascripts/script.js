@@ -19,8 +19,7 @@ $(document).ready(function($) {
 	$(".btn-contact").click(function(e) {
         $.ajax({
         	type : 'GET',
-        	url : '/signin',
-        	
+        	url : '/signin'
         });
 	});
 	
@@ -75,5 +74,7 @@ $(document).ready(function($) {
         return false;
 	});
 	
- 
+	$(".btn-comment").click(function(e) {
+		$(this).find('form').removeClass("hidden");
+	});
 });

@@ -8,6 +8,7 @@ import akka.io.Tcp.Bind;
 import controllers.Application;
 import controllers.CtrlMember;
 import play.data.Form;
+import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.*;
@@ -25,15 +26,11 @@ public class CtrlPost extends Controller {
 	
 	
 	public static Result submitPost() {	
-    	
 		JsonNode body = request().body().asJson();
-    	
     	Post poste = new Post();
-    	poste.setContent(body.get("post").toString());
-    	poste.setAutor(Member.getMember(body.get("auteur").toString()));
-    	
-    	Post.create(poste);
-    	
+    	poste.setContent(body.get("post").asText());
+    	poste.setAutor(Member.getMember(body.get("auteur").asText()));
+    	Post.setPost(poste);
 		return redirect(routes.CtrlPost.listPost());
 	}  
 	

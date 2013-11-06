@@ -18,13 +18,12 @@ import com.fasterxml.jackson.databind.JsonNode;
 public class CtrlMember extends Controller {
 	
 	static Form<User> userForm = Form.form(User.class);
-	static String login; 
-	static String motPasse;       
+	static String member;       
 	
 	public static Result members() {
     	List <Post> posts;
     	posts  = Post.all();
-		return ok(members.render(login,posts));
+		return ok(members.render(member,posts));
     }
 	
 	public static Result signup() {	
@@ -48,12 +47,12 @@ public class CtrlMember extends Controller {
     	if(request().accepts("application/json"))
         {
         	Member member =new Member();    
-        	JsonNode body = request().body().asJson();       
-        	member.setNom(body.get("nom").toString());
-        	member.setPrenom(body.get("prenom").toString());
-        	member.setLogin(body.get("login").toString());
-        	member.setEmail(body.get("email").toString());
-        	member.setMotPasse(body.get("motPasse").toString());
+        	JsonNode body = request().body().asJson(); 
+        	member.setNom(body.get("nom").asText());
+        	member.setPrenom(body.get("prenom").asText());
+        	member.setLogin(body.get("login").asText());
+        	member.setEmail(body.get("email").asText());
+        	member.setMotPasse(body.get("motPasse").asText());
         	member.save();
             return ok();
         }
@@ -62,10 +61,9 @@ public class CtrlMember extends Controller {
     
     public static Result submitSignin(){
     	JsonNode body = request().body().asJson();
-    	login = body.get("login").toString();
-    	motPasse = body.get("motPasse").toString();
-    	if(Member.isMember(login, motPasse)){
-    		session("Connected",login);
+    	if(Member.isMember(body.get("login").asText(), body.get("motPasse").asText())){
+    		member = body.get("login").asText();
+    		session("Connected",member);
     		return ok("ok");
     	}
     	else{

@@ -1,18 +1,19 @@
 @(posts: List[Post])
 
 <table class="table table-hover">	
-	<tr>
-		<td>Num</td>
-		<td>Login</td>
-		<td>Post</td>
-		<td>Date</td>
-	</tr>
 	@for((post, i) <- posts.zipWithIndex) {
 	<tr>
-		<td>@i</td>
-		<td>@post.getAutor</td>
-		<td>@post.getContent</td>
-		<td>@post.getPostDate</td>
+		<td class="span1">@post.getAutor.getLogin</td>
+		<td class="btn-comment">
+			<blockquote>
+    		<p>@post.getContent</p>
+    		<small class="pull-right"><cite title="Source Title">@post.getPostDate</cite></small>
+    		<form class="hidden">
+    			<input class="span8"placeholder="Write a comment...">
+    			<button type="submit" class="btn btn-primary">Go !</button>
+    		</form>
+    		</blockquote>
+		</td>
 	</tr>
 	}
 </table>

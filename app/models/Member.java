@@ -16,25 +16,20 @@ import play.db.ebean.Model;
 @Entity
 @Table(name="Member")
 public class Member extends Model{
-	@Id
-	@GeneratedValue
 	private int id;
 	private String nom;
 	private String prenom;
 	private String login;
 	private String email;
 	private String motPasse;
-	@OneToMany
 	private List<Post> posts;
-	@OneToMany
     private List<Comment> comments;
-	
-	public static Finder<Long, Member> find = new Finder<Long, Member>(Long.class, Member.class);
 	
 	
 	// Getters and Setters ================================================================================
 	
-	
+	@Id
+	@GeneratedValue
 	public int getId() {
 		return id;
 	}
@@ -82,7 +77,7 @@ public class Member extends Model{
 	public void setMotPasse(String motPasse) {
 		this.motPasse = motPasse;
 	}
-
+	@OneToMany(mappedBy="autor")
 	public List<Post> getPosts() {
 		return posts;
 	}
@@ -90,7 +85,7 @@ public class Member extends Model{
 	public void setPosts(List<Post> posts) {
 		this.posts = posts;
 	}
-
+	@OneToMany(mappedBy="autor")
 	public List<Comment> getComments() {
 		return comments;
 	}
@@ -100,6 +95,8 @@ public class Member extends Model{
 	}
 
 	// Methodes statics ====================================================================================
+	
+	public static Finder<Long, Member> find = new Finder<Long, Member>(Long.class, Member.class);
 	
 	public static List<Member> all(){
 		return find.all();
@@ -113,8 +110,7 @@ public class Member extends Model{
 		return find.where().eq("login",login).eq("motPasse",motPasse).findRowCount()>0;
 	}
 	
-	public static Member create(Member member){
+	public static void setMember(Member member){
 		member.save();
-		return null;
 	}
 }

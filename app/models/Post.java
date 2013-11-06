@@ -7,7 +7,6 @@ import models.Member;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
@@ -25,17 +24,12 @@ public class Post extends Model {
     private String content;
     private Date postDate;
     @ManyToOne
-    @JoinColumn(name="nom")
     private Wall wall;
     @OneToMany
     private List<Comment> comments;
     @ManyToOne
-    @JoinColumn(name="login")
     private Member autor;
-	
-    
-    public static Finder<Long, Post> find = new Finder<Long, Post>(Long.class, Post.class);
-    
+	  
     // Getters and Setters  ==============================================================================
     public int getId() {
 		return id;
@@ -82,6 +76,8 @@ public class Post extends Model {
 	
 	// Methodes statics  ================================================================================
 	
+    public static Finder<Long, Post> find = new Finder<Long, Post>(Long.class, Post.class);
+    
 	public static List<Post> all(){
 		return find.all();
 	}
@@ -89,11 +85,14 @@ public class Post extends Model {
 	public static List<Post> listPosts (String login, String wall){
 		return find.where().eq("login",login).eq("wall",wall).findList();
 	}
+
+	public static List<Post> getPostsByM (Member member){
+		return find.where().eq("autor",member).findList();
+	}
 	
-	public static Post create(Post post){
+	public static void setPost(Post post){
 		post.postDate = new Date();
 		post.save();
-		return post;
 	}
 	
 }
