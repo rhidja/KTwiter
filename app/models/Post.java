@@ -17,20 +17,17 @@ import play.db.ebean.Model;
 @Entity
 @Table(name="Post")
 public class Post extends Model {
-    @Id
-    @GeneratedValue
 	private int id;
     private String title;
     private String content;
     private Date postDate;
-    @ManyToOne
-    private Wall wall;
-    @OneToMany
-    private List<Comment> comments;
-    @ManyToOne
     private Member autor;
-	  
+    private Wall wall;
+    private List<Comment> comments;
+
     // Getters and Setters  ==============================================================================
+    @Id
+    @GeneratedValue
     public int getId() {
 		return id;
 	}
@@ -55,18 +52,21 @@ public class Post extends Model {
 	public void setPostDate(Date postDate) {
 		this.postDate = postDate;
 	}
+	@ManyToOne
 	public Wall getWall() {
 		return wall;
 	}
 	public void setWall(Wall wall) {
 		this.wall = wall;
 	}
+	@OneToMany
 	public List<Comment> getComments() {
 		return comments;
 	}
 	public void setComments(List<Comment> comments) {
 		this.comments = comments;
 	}
+	@ManyToOne
 	public Member getAutor() {
 		return autor;
 	}
@@ -88,6 +88,10 @@ public class Post extends Model {
 
 	public static List<Post> getPostsByM (Member member){
 		return find.where().eq("autor",member).findList();
+	}
+	
+	public static Post getPost(int postId){
+		return find.where().eq("id",postId).findUnique();
 	}
 	
 	public static void setPost(Post post){

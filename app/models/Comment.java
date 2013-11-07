@@ -1,5 +1,6 @@
 package models;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -8,16 +9,18 @@ import javax.persistence.Table;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import play.db.ebean.Model;
 import play.db.ebean.Model.Finder;
 import models.Member;
 
 @Entity
 @Table(name="Comment")
-public class Comment {
+public class Comment extends Model{
 	private int id;
 	private String content;
 	private Post post;
 	private Member autor;
+	private Date commentDate;
 	
 	// Getters and Setters =======================================================================
 	@Id
@@ -50,8 +53,17 @@ public class Comment {
 		this.autor = autor;
 	}
 	
+	public Date getCommentDate() {
+		return commentDate;
+	}
+	public void setCommentDate(Date commentDate) {
+		this.commentDate = commentDate;
+	}
+	
+	
 	// Methodes statiques  ======================================================================
 	
+
 	public static Finder<Long, Comment> find = new Finder<Long, Comment>(Long.class, Comment.class);
 	
 	public static List<Comment> all(){
@@ -62,5 +74,8 @@ public class Comment {
 		return find.where().eq("post",post).findList();
 	}
 	
-	
+	public static void setComment(Comment comment){
+		comment.commentDate = new Date();
+		comment.save();
+	}	
 }

@@ -75,6 +75,25 @@ $(document).ready(function($) {
 	});
 	
 	$(".btn-comment").click(function(e) {
-		$(this).find('form').removeClass("hidden");
+		$(this).find('.comDiv').removeClass("hidden");
 	});
+	
+	$(".btn-save-comment").click(function(e) {
+		$auteur  = $("#inputAuteur").val();
+		$postid  = $(this).prevAll(".postId").val();
+		$content = $(this).prevAll(".comCont").val();
+		
+		$.ajax({
+            type : 'POST',
+            url : '/comment',
+            contentType : "application/json; charset=UTF-8",
+            data : JSON.stringify({"auteur" : $auteur,"postid" : $postid,"content" : $content}),
+            success : function(data) {
+            	//$("#div_posts").html(data);
+            	alert(data);
+            }
+        });
+        return false;
+	});
+	
 });

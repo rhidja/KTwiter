@@ -8,6 +8,7 @@ create table Comment (
   content                   varchar(255),
   post_id                   integer,
   autor_id                  integer,
+  comment_date              timestamp,
   constraint pk_Comment primary key (id))
 ;
 
@@ -26,8 +27,8 @@ create table Post (
   title                     varchar(255),
   content                   varchar(255),
   post_date                 timestamp,
-  wall_id                   integer,
   autor_id                  integer,
+  wall_id                   integer,
   constraint pk_Post primary key (id))
 ;
 
@@ -49,10 +50,10 @@ alter table Comment add constraint fk_Comment_post_1 foreign key (post_id) refer
 create index ix_Comment_post_1 on Comment (post_id);
 alter table Comment add constraint fk_Comment_autor_2 foreign key (autor_id) references Member (id) on delete restrict on update restrict;
 create index ix_Comment_autor_2 on Comment (autor_id);
-alter table Post add constraint fk_Post_wall_3 foreign key (wall_id) references Wall (id) on delete restrict on update restrict;
-create index ix_Post_wall_3 on Post (wall_id);
-alter table Post add constraint fk_Post_autor_4 foreign key (autor_id) references Member (id) on delete restrict on update restrict;
-create index ix_Post_autor_4 on Post (autor_id);
+alter table Post add constraint fk_Post_autor_3 foreign key (autor_id) references Member (id) on delete restrict on update restrict;
+create index ix_Post_autor_3 on Post (autor_id);
+alter table Post add constraint fk_Post_wall_4 foreign key (wall_id) references Wall (id) on delete restrict on update restrict;
+create index ix_Post_wall_4 on Post (wall_id);
 
 
 
