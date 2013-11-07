@@ -26,6 +26,6 @@ public class CtrlComment extends Controller{
     	comment.setPost(Post.getPost(body.get("postid").asInt()));
     	comment.setContent(body.get("content").asText());
     	Comment.setComment(comment);
-		return ok("OK");//redirect(routes.CtrlPost.listPost());
+		return redirect(routes.CtrlComment.getComments());
 	} 
 }

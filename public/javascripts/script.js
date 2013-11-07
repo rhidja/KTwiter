@@ -90,7 +90,6 @@ $(document).ready(function($) {
             data : JSON.stringify({"auteur" : $auteur,"postid" : $postid,"content" : $content}),
             success : function(data) {
             	//$("#div_posts").html(data);
-            	alert(data);
             }
         });
         return false;
