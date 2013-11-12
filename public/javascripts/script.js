@@ -90,5 +90,18 @@ $(document).ready(function($) {
         });
         return false;
 	});
+	// Cliquer sur un membre pour voir son profile
+	$(".view-profile").click(function(e) {
+		$login= $(this).find("td:first").next().text();
+		$.ajax({
+            type : 'POST',
+            url : '/profile',
+            contentType : "application/json; charset=UTF-8",
+            data : JSON.stringify({"login" : $login}),
+            success : function(data) {
+            	$('article').html(data);
+            }
+        });
+	});
 	
 });

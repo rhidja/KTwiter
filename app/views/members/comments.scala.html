@@ -1,8 +1,9 @@
 @(post : Post )
-@for(list <- post.getComments){
+@for(com <- post.getComments){
 	<blockquote>
-		<p>@list.getContent</p>
-		<small class="pull-right"><cite title="Source Title">@post.getPostDate</cite></small>   		
+		<p>@com.getAutor</p>
+		<p>@com.getContent</p>
+		<small class="pull-right"><cite title="Source Title">@com.getCommentDate</cite></small>   		
 	</blockquote>
 }
 <div class="comDiv hidden">

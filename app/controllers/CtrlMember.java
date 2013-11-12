@@ -26,6 +26,19 @@ public class CtrlMember extends Controller {
 		return ok(members.render(member,posts));
     }
 	
+	public static Result profile() {
+    	if(request().accepts("application/json"))
+        {
+        	Member member;
+        	//System.out.print("OK");
+        	JsonNode body = request().body().asJson();
+        	//System.out.print(body.get("login").asText());
+        	member = Member.getMember(body.get("login").asText());
+        	return ok(profile.render(member));
+        }
+    	return badRequest();
+    }
+	
 	public static Result signup() {	
         return ok(signup.render());
     }
@@ -44,8 +57,6 @@ public class CtrlMember extends Controller {
         {
         	Member member =new Member();    
         	JsonNode body = request().body().asJson(); 
-        	member.setNom(body.get("nom").asText());
-        	member.setPrenom(body.get("prenom").asText());
         	member.setLogin(body.get("login").asText());
         	member.setEmail(body.get("email").asText());
         	member.setMotPasse(body.get("motPasse").asText());

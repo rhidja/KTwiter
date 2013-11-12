@@ -1,0 +1,12 @@
+@(member : Member)
+<div class="offset3 span5">
+	<dl class="dl-horizontal">
+		<dt>Login 				:</dt><dd>@member.getLogin</dd>
+		<dt>Nom 				:</dt><dd>member.getProfile.getNom</dd>
+		<dt>Prenom 				:</dt><dd>member.getProfile.getPrenom</dd>
+		<dt>Date de Naissance 	:</dt><dd>member.getProfile.getDateNaissance</dd>
+		<dt>Sexe 				:</dt><dd>member.getProfile.getSexe</dd>
+		<dt>Type 				:</dt><dd>member.getProfile.getType</dd>
+		<dt>Email 				:</dt><dd>@member.getEmail</dd>
+	</dl>
+</div>

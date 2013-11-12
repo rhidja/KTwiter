@@ -3,9 +3,11 @@ package models;
 import java.util.List;
 
 import models.Post;
+import models.Profile;
 
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Id;
 import javax.persistence.GeneratedValue;
@@ -17,43 +19,25 @@ import play.db.ebean.Model;
 @Table(name="Member")
 public class Member extends Model{
 	private int id;
-	private String nom;
-	private String prenom;
 	private String login;
 	private String email;
 	private String motPasse;
+	private Profile profile;
 	private List<Post> posts;
     private List<Comment> comments;
 	
 	
 	// Getters and Setters ================================================================================
-	
 	@Id
 	@GeneratedValue
 	public int getId() {
 		return id;
 	}
-
+	
 	public void setId(int id) {
 		this.id = id;
 	}
-
-	public String getNom() {
-		return nom;
-	}
-
-	public void setNom(String nom) {
-		this.nom = nom;
-	}
-
-	public String getPrenom() {
-		return prenom;
-	}
-
-	public void setPrenom(String prenom) {
-		this.prenom = prenom;
-	}
-
+	
 	public String getLogin() {
 		return login;
 	}
@@ -73,10 +57,20 @@ public class Member extends Model{
 	public String getMotPasse() {
 		return motPasse;
 	}
-
+	
 	public void setMotPasse(String motPasse) {
 		this.motPasse = motPasse;
 	}
+	
+	@OneToOne(mappedBy="member")
+	public Profile getProfile() {
+		return profile;
+	}
+
+	public void setProfile(Profile profile) {
+		this.profile = profile;
+	}
+	
 	@OneToMany(mappedBy="autor")
 	public List<Post> getPosts() {
 		return posts;
