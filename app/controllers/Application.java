@@ -10,9 +10,19 @@ import views.html.*;
 public class Application extends Controller {
 
     public static Result index() {
+        return ok(index.render());
+    }
+	
+    public static Result admin() {
     	List <Member> members;
     	members  = Member.all();
-        return ok(index.render(members));
-    } 
-    
+        return ok(admin.render(members));
+    }
+	
+	public static Result about() {	
+        return ok(about.render());
+    }	
+	public static Result contact() {	
+        return ok(contact.render());
+    }	
 }

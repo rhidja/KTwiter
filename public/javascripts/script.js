@@ -3,26 +3,22 @@ $(document).ready(function($) {
 	$(".btn-admin").click(function(e) {
     	$('article').load('/admin');
     });
+	$(".btn-about").click(function(e) {
+    	$('article').load('/about');
+    });
+	$(".btn-contact").click(function(e) {
+    	$('article').load('/contact');
+    });
+	//====================================
 	$(".btn-signup").click(function(e) {
     	$('article').load('/signup');
     });
 	$(".btn-signin").click(function(e) {
     	$('article').load('/signin');
     });	
-	$(".btn-about").click(function(e) {
-    	$('article').load('/about');
-    });
 	$(".btn-logout").click(function(e) {
 		$("#id_login").load('/logout');
     });
-	
-	$(".btn-contact").click(function(e) {
-        $.ajax({
-        	type : 'GET',
-        	url : '/signin'
-        });
-	});
-	
 	
 	$(".btn-submit-member").click(function(e) {
 		$nom = $("#inputNom").val();

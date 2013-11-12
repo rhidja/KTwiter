@@ -3,19 +3,23 @@
 <table class="table table-hover">
 	
 	<tr>
+		<td></td>
 		<td>Nom</td>
 		<td>Prenom</td>
 		<td>Login</td>
 		<td>Email</td>
 		<td>Password</td>
+		<td>Etat</td>
 	</tr>
 	@for((member, i) <- members.zipWithIndex) {
 	<tr>
+		<td><input type="checkbox"></td>
 		<td>@member.getNom</td>
 		<td>@member.getPrenom</td>
 		<td>@member.getLogin</td>
 		<td>@member.getEmail</td>
 		<td>@member.getMotPasse</td>
+		<td>active</td>
 	</tr>
 	}
 </table>

@@ -1,18 +1,18 @@
 @(posts: List[Post])
 
-<table class="table table-hover">	
-	<tr>
-		<td>Num</td>
-		<td>Login</td>
-		<td>Post</td>
-		<td>Date</td>
-	</tr>
+<table class="table table-hover span9 offset1">	
 	@for((post, i) <- posts.zipWithIndex) {
 	<tr>
-		<td>@i</td>
-		<td>@post.getAutor.getLogin</td>
-		<td>@post.getContent</td>
-		<td>@post.getPostDate</td>
+		<td class="span1">@post.getAutor.getLogin</td>
+		<td class="btn-comment">
+			<blockquote>
+	    		<p>@post.getContent</p>
+	   			<small class="pull-right"><cite title="Source Title">@post.getPostDate</cite></small>   		
+	   		</blockquote>
+    		@comments(post)
+		</td>
 	</tr>
 	}
 </table>
+
+<script src="@routes.Assets.at("javascripts/script.js")" type="text/javascript"></script>

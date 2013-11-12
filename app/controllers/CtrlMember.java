@@ -30,10 +30,6 @@ public class CtrlMember extends Controller {
         return ok(signup.render());
     }
 	
-	public static Result about() {	
-        return ok(about.render());
-    }
-	
 	public static Result signin() {	
         return ok(signin.render(userForm));
     }	
