@@ -5,36 +5,39 @@ import java.util.List;
 import models.Post;
 import models.Profile;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Id;
 import javax.persistence.GeneratedValue;
-import javax.persistence.EntityManager;
 
 import play.db.ebean.Model;
 
 @Entity
 @Table(name="Member")
 public class Member extends Model{
-	private int id;
+	@Id
+	@GeneratedValue
+	private long id;
 	private String login;
 	private String email;
 	private String motPasse;
+	@OneToOne(mappedBy="member",cascade = {CascadeType.ALL})
 	private Profile profile;
+	@OneToMany(mappedBy="autor",cascade = {CascadeType.ALL})
 	private List<Post> posts;
+	@OneToMany(mappedBy="autor",cascade = {CascadeType.ALL})
     private List<Comment> comments;
 	
-	
 	// Getters and Setters ================================================================================
-	@Id
-	@GeneratedValue
-	public int getId() {
+
+	public long getId() {
 		return id;
 	}
 	
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 	
@@ -62,7 +65,7 @@ public class Member extends Model{
 		this.motPasse = motPasse;
 	}
 	
-	@OneToOne(mappedBy="member")
+	
 	public Profile getProfile() {
 		return profile;
 	}
@@ -71,7 +74,7 @@ public class Member extends Model{
 		this.profile = profile;
 	}
 	
-	@OneToMany(mappedBy="autor")
+	
 	public List<Post> getPosts() {
 		return posts;
 	}
@@ -79,7 +82,7 @@ public class Member extends Model{
 	public void setPosts(List<Post> posts) {
 		this.posts = posts;
 	}
-	@OneToMany(mappedBy="autor")
+	
 	public List<Comment> getComments() {
 		return comments;
 	}
@@ -102,9 +105,5 @@ public class Member extends Model{
 	
 	public static Boolean isMember (String login, String motPasse){
 		return find.where().eq("login",login).eq("motPasse",motPasse).findRowCount()>0;
-	}
-	
-	public static void setMember(Member member){
-		member.save();
-	}
+	}	
 }

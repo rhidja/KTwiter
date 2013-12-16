@@ -1,12 +1,46 @@
-@(post : Post )
-@for(list <- post.getComments){
-	<blockquote>
-		<p>@list.getContent</p>
-		<small class="pull-right"><cite title="Source Title">@post.getPostDate</cite></small>   		
-	</blockquote>
+@(post : Post)
+@for(com <- post.getComments){ 	
+ 	<li class="list-group-item col-md-offset-1">
+		<div class="comment-row">
+			<input type="hidden" id="comment-id" value="@com.getId"/>
+			<div class="col-md-1">
+				<img src="@routes.Assets.at("img/avatar.png")" class="img-circle img-responsive" alt="" />
+			</div>
+			<div>
+				<div>
+					By : 
+					<a href="#" class="autor-login">
+						<b>@com.getAutor.getLogin</b>
+					</a>
+				</div>
+				<div class="comment-text">
+					@com.getContent
+				</div>
+				<div class="action col-md-offset-1">
+					<button type="button" class="btn btn-primary btn-xs">
+						<span class="glyphicon">@com.getLikeComment</span>
+					</button>
+										
+					<button type="button" class="btn btn-primary btn-xs cmt-like" title="Like">
+						<span class="glyphicon glyphicon-thumbs-up"></span>
+                    </button>
+					 | 
+					<button type="button" class="btn btn-danger btn-xs cmt-delete" title="Delete">
+						<span class="glyphicon glyphicon-trash"></span>
+                    </button>
+					<span class="mic-info pull-right">
+						In: <a href="#">Montpellier</a> on : @com.getCommentDate
+					</span>
+                                    
+				</div>
+			</div>
+		</div>
+	</li>
 }
-<div class="comDiv hidden">
-	<input class="postId hidden" value=@post.getId >
-    <input class="span7 comCont" placeholder="Write a comment...">
-    <button type="submit" class="btn btn-primary btn-save-comment">Go !</button>
-</div>
+@if(post.getComments.size>3){	
+	<div class="col-md-offset-1">
+		<a href="#" class="btn btn-sx btn-block" role="button">
+			<span class="glyphicon glyphicon-refresh"></span> More
+		</a>
+	</div>
+}	

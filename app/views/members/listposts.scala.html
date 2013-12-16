@@ -1,18 +1,59 @@
 @(posts: List[Post])
+<link rel="stylesheet" media="screen" href="@routes.Assets.at("css/post.css")">
 
-<table class="table table-hover span9 offset1">	
-	@for((post, i) <- posts.zipWithIndex) {
-	<tr>
-		<td class="span1">@post.getAutor.getLogin</td>
-		<td class="btn-comment">
-			<blockquote>
-	    		<p>@post.getContent</p>
-	   			<small class="pull-right"><cite title="Source Title">@post.getPostDate</cite></small>   		
-	   		</blockquote>
-    		@comments(post)
-		</td>
-	</tr>
-	}
-</table>
+@for((post, i) <- posts.zipWithIndex) {
+    <div class="row post">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+				<div class="row">
+					<div class="col-md-1">
+						<img src="@routes.Assets.at("img/avatar.png")" class="img-circle img-responsive" alt="" />
+					</div>
+					<div>
+		                By :
+		                <a class="autor-login" href="#" class="pst-autor">
+		                	<b>@post.getAutor.getLogin</b>
+		                </a>
+		                <p> @post.getContent</p>
+					</div>
+				</div>
+				<div class="row action">
+						<button type="button" class="btn btn-primary btn-xs col-md-offset-1">
+							<span class="glyphicon">@post.getComments.size</span>
+						</button>
+						
+						<button type="button" class="btn btn-primary btn-xs btn-comment" title="Comment">
+							<span class="glyphicon glyphicon-comment"></span>
+						</button>
+						 | 
+						<button type="button" class="btn btn-primary btn-xs">
+							<span class="glyphicon">@post.getLikePost</span>
+						</button>						
+						<button type="button" class="btn btn-primary btn-xs pst-like" title="Like">
+							<span class="glyphicon glyphicon-thumbs-up"></span>
+						</button>
+						 | 
+						<button type="button" class="btn btn-danger btn-xs pst-delete" title="Delete">
+							<span class="glyphicon glyphicon-trash"></span>
+	                    </button>						
 
-<script src="@routes.Assets.at("javascripts/script.js")" type="text/javascript"></script>
+						<span class="mic-info pull-right">
+							In: <a href="#">Montpellier</a> on @post.getPostDate
+						</span>
+				</div>
+				<div class="row hidden">
+				<form class="frm-comment">
+					<input type="hidden" id="post-id" value="@post.getId">
+                	<input type="text" id="comment-cnt" class="col-md-offset-1 col-md-11" placeholder="Write a comment...">
+                	<input type="submit" class="hidden"/>
+                </form>
+                </div>
+            </div>
+            <div class="panel-body">
+	           <ul class="list-group row">
+	                @comments(post)
+	           </ul>
+            </div>
+        </div>
+    </div>
+}

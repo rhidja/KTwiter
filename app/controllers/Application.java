@@ -10,6 +10,7 @@ import views.html.*;
 public class Application extends Controller {
 
     public static Result index() {
+		  response().setHeader(ACCESS_CONTROL_ALLOW_ORIGIN, "*");		
         return ok(index.render());
     }
 	

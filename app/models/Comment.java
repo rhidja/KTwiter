@@ -16,36 +16,47 @@ import models.Member;
 @Entity
 @Table(name="Comment")
 public class Comment extends Model{
-	private int id;
+	@Id
+    @GeneratedValue
+	private long id;
+	private long likeComment;
 	private String content;
+	@ManyToOne
 	private Post post;
+	@ManyToOne
 	private Member autor;
 	private Date commentDate;
 	
 	// Getters and Setters =======================================================================
-	@Id
-    @GeneratedValue
-	public int getId() {
+
+	public long getId() { // id
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 	
-	public String getContent() {
+	public long getLikeComment() { //like
+		return likeComment;
+	}
+	public void setLikeComment() {
+		this.likeComment++;
+	}
+	
+	public String getContent() {// Content.
 		return content;
 	}
 	public void setContent(String content) {
 		this.content = content;
 	}
-	@ManyToOne
+	
 	public Post getPost() {
 		return post;
 	}
 	public void setPost(Post post) {
 		this.post = post;
 	}
-	@ManyToOne
+	
 	public Member getAutor() {
 		return autor;
 	}
@@ -72,6 +83,10 @@ public class Comment extends Model{
 	
 	public static List<Comment> getComments(Post post){
 		return find.where().eq("post",post).findList();
+	}
+	
+	public static Comment getComment(long id){
+		return find.where().eq("id",id).findUnique();
 	}
 	
 	public static void setComment(Comment comment){

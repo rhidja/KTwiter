@@ -1,22 +1,62 @@
 @(login : String)
-
-<div class="span6">
-	<h1>KTwiter</h1>
-</div>
-
-<div id="id_navbar" class="navbar navbar-inverse span12 ">
-	<div class="navbar-inner">
-		<a class="brand" href="#">Azul @login!</a>
-		<ul class="nav">
-			<li class="active">
-				<a href="@routes.Application.index()">Home</a>
-			</li>
-			<li>
-				<a class="btn-about" href="#">About</a>
-			</li>
-			<li>
-				<a class="btn-contact" href="#">Contact</a>
-			</li>
-		</ul>
+<div class="container">
+	<div class="row">
+		<h1>KTwiter</h1>
+	</div>	
+	<div class="row">
+	    <nav class="navbar navbar-default" role="navigation">
+	        <!-- Brand and toggle get grouped for better mobile display -->
+	        <div class="navbar-header">
+	            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+	                <span class="sr-only">Toggle navigation</span> 
+	                <span class="icon-bar"></span>
+	                <span class="icon-bar"></span>
+	                <span class="icon-bar"></span>
+	            </button>
+	            <a class="navbar-brand">Azul @login!</a>
+	        </div>
+	        <!-- Collect the nav links, forms, and other content for toggling -->
+	        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+	            <ul class="nav navbar-nav">
+	                <li class="active">
+	                	<a href="#"><span class="glyphicon glyphicon-home btn-home"></span>Home</a>
+	                </li>
+	                <li>
+	                	<a href="#" class="btn-about">About</a>
+	                </li>
+	                <li>
+	                	<a href="#" class="btn-contact">Contact</a>
+	                </li>
+	            </ul>
+	            <ul class="nav navbar-nav navbar-right">
+	            	<li>
+	                	<a href="#" class="btn-profile">Profile</a>
+	                </li>
+	            	<li>
+	                	<a href="#" class="btn-all">All</a>
+	                </li>
+	                
+					<li>
+	                	<a href="#" class="btn-wall">Wall</a>
+	                </li>
+	                
+	                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">
+	                	<span class="glyphicon glyphicon-user"></span><b class="caret"></b></a>
+	                    <ul class="dropdown-menu">
+	                        <li>
+	                        	<a href="#" class="signup_frm">
+	                        		<span class="glyphicon glyphicon-cog"></span> Settings
+	                        	</a>
+	                        </li>
+	                        <li class="divider"></li>
+			                <li class="active">
+			                	<a href="#"><span class="glyphicon glyphicon-log-out"></span> Log out</a>
+			                </li>
+	                    </ul>
+	                </li>
+	            </ul>
+	        </div>
+	        <!-- /.navbar-collapse -->
+	    </nav>
 	</div>
 </div>

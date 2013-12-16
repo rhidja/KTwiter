@@ -1,15 +1,13 @@
 package models;
 
 import java.util.Date;
-
-import models.Member;
+import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Id;
-import javax.persistence.GeneratedValue;
-import javax.persistence.EntityManager;
 
 import play.db.ebean.Model;
 import play.db.ebean.Model.Finder;
@@ -17,30 +15,26 @@ import play.db.ebean.Model.Finder;
 @Entity
 @Table(name="Profile")
 public class Profile extends Model{
-	private String id;
-	private Member member;
+	@Id
+	@GeneratedValue
+	private long id;
 	private String nom;
 	private String prenom;
 	private String sexe;
+	@OneToOne
+	private Member member;
 	private String type;
 	private Date dateNaissance;
 	
 	// Getters and Setters ================================================
-	@Id
-	@GeneratedValue
-	public String getId() {
+	
+	public long getId() {
 		return id;
 	}
-	public void setId(String id) {
+	public void setId(long id) {
 		this.id = id;
 	}
-	@OneToOne
-	public Member getMember() {
-		return member;
-	}
-	public void setMember(Member member) {
-		this.member = member;
-	}
+	
 	public String getNom() {
 		return nom;
 	}
@@ -59,6 +53,12 @@ public class Profile extends Model{
 	public void setSexe(String sexe) {
 		this.sexe = sexe;
 	}
+	public Member getMember() {
+		return member;
+	}
+	public void setMember(Member member) {
+		this.member = member;
+	}
 	public String getType() {
 		return type;
 	}
@@ -72,19 +72,15 @@ public class Profile extends Model{
 		this.dateNaissance = dateNaissance;
 	}
 	
-	//Methodes static =================================================================
+	// Methodes statics ====================================================================================
+	
 	public static Finder<Long, Profile> find = new Finder<Long, Profile>(Long.class, Profile.class);
 	
-	public static Profile getProfile(String login){
-		return find.where().eq("login",login).findUnique();
+	public static List<Profile> all(){
+		return find.all();
 	}
 	
-	public static Boolean isAdmin (String login){
-		return find.where().eq("login",login).eq("type","admin").findRowCount()>0;
+	public static Profile getProfile(Member member){
+		return find.where().eq("member",member).findUnique();
 	}
-	
-	public static void setProfile(Profile profile){
-		profile.save();
-	}
-
 }

@@ -4,16 +4,17 @@
 # --- !Ups
 
 create table Comment (
-  id                        integer not null,
+  id                        bigint not null,
+  like_comment              bigint,
   content                   varchar(255),
-  post_id                   integer,
-  autor_id                  integer,
+  post_id                   bigint,
+  autor_id                  bigint,
   comment_date              timestamp,
   constraint pk_Comment primary key (id))
 ;
 
 create table Member (
-  id                        integer not null,
+  id                        bigint not null,
   login                     varchar(255),
   email                     varchar(255),
   mot_passe                 varchar(255),
@@ -21,28 +22,29 @@ create table Member (
 ;
 
 create table Post (
-  id                        integer not null,
+  id                        bigint not null,
+  like_post                 bigint,
   title                     varchar(255),
   content                   varchar(255),
   post_date                 timestamp,
-  autor_id                  integer,
-  wall_id                   integer,
+  autor_id                  bigint,
+  wall_id                   bigint,
   constraint pk_Post primary key (id))
 ;
 
 create table Profile (
-  id                        varchar(255) not null,
-  member_id                 integer,
+  id                        bigint not null,
   nom                       varchar(255),
   prenom                    varchar(255),
   sexe                      varchar(255),
+  member_id                 bigint,
   type                      varchar(255),
   date_naissance            timestamp,
   constraint pk_Profile primary key (id))
 ;
 
 create table Wall (
-  id                        integer not null,
+  id                        bigint not null,
   nom                       varchar(255),
   constraint pk_Wall primary key (id))
 ;

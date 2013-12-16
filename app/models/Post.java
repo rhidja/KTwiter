@@ -5,6 +5,7 @@ import java.util.List;
 
 import models.Member;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Table;
@@ -17,22 +18,32 @@ import play.db.ebean.Model;
 @Entity
 @Table(name="Post")
 public class Post extends Model {
-	private int id;
+    @Id
+    @GeneratedValue
+	private long id;
+    private long likePost;
     private String title;
     private String content;
     private Date postDate;
+    @ManyToOne
     private Member autor;
+	@ManyToOne
     private Wall wall;
-    private List<Comment> comments;
+	@OneToMany(cascade = {CascadeType.ALL})
+	private List<Comment> comments;
 
     // Getters and Setters  ==============================================================================
-    @Id
-    @GeneratedValue
-    public int getId() {
+    public long getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
+	}
+	public long getLikePost() {
+		return likePost;
+	}
+	public void setLikePost(long likePost) {
+		this.likePost = likePost;
 	}
 	public String getTitle() {
 		return title;
@@ -52,21 +63,20 @@ public class Post extends Model {
 	public void setPostDate(Date postDate) {
 		this.postDate = postDate;
 	}
-	@ManyToOne
+
 	public Wall getWall() {
 		return wall;
 	}
 	public void setWall(Wall wall) {
 		this.wall = wall;
 	}
-	@OneToMany
+
 	public List<Comment> getComments() {
 		return comments;
 	}
 	public void setComments(List<Comment> comments) {
 		this.comments = comments;
 	}
-	@ManyToOne
 	public Member getAutor() {
 		return autor;
 	}
@@ -79,7 +89,7 @@ public class Post extends Model {
     public static Finder<Long, Post> find = new Finder<Long, Post>(Long.class, Post.class);
     
 	public static List<Post> all(){
-		return find.all();
+		return find.order().desc("postDate").findList();
 	}
 	
 	public static List<Post> listPosts (String login, String wall){
@@ -97,6 +107,5 @@ public class Post extends Model {
 	public static void setPost(Post post){
 		post.postDate = new Date();
 		post.save();
-	}
-	
+	}	
 }

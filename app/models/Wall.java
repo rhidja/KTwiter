@@ -13,15 +13,17 @@ import play.db.ebean.Model;
 @Entity
 @Table (name="Wall")
 public class Wall extends Model{
-	private int id;
-	private String nom;
-	private List<Post> posts;
 	@Id
 	@GeneratedValue
-	public int getId() {
+	private long id;
+	private String nom;
+	@OneToMany
+	private List<Post> posts;
+
+	public long getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 	public String getNom() {
@@ -30,7 +32,7 @@ public class Wall extends Model{
 	public void setNom(String nom) {
 		this.nom = nom;
 	}
-	@OneToMany
+
 	public List<Post> getPosts() {
 		return posts;
 	}

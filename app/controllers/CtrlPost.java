@@ -23,13 +23,33 @@ public class CtrlPost extends Controller {
 		return ok(listposts.render(posts));
 	}
 	
+	public static Result wall() {
+    	List <Post> posts;
+    	posts  = Post.getPostsByM(Member.getMember(session().get("Connected")));
+		return ok(listposts.render(posts));
+	}
+	
+	public static Result likePost() {
+		JsonNode body = request().body().asJson();
+		Post post = Post.getPost(body.get("post-id").asInt());
+		post.setLikePost(post.getLikePost()+1);
+		post.update();
+		return redirect(routes.CtrlPost.listPost());
+	}
+	
+	public static Result deletePost() {
+		JsonNode body = request().body().asJson();
+		Post post = Post.getPost(body.get("post-id").asInt());
+		post.delete();
+		return redirect(routes.CtrlPost.listPost());
+	}
 	
 	public static Result submitPost() {	
 		JsonNode body = request().body().asJson();
-    	Post poste = new Post();
-    	poste.setContent(body.get("post").asText());
-    	poste.setAutor(Member.getMember(body.get("auteur").asText()));
-    	Post.setPost(poste);
+    	Post post = new Post();
+    	post.setContent(body.get("post").asText());
+    	post.setAutor(Member.getMember(session().get("Connected")));
+    	Post.setPost(post);
 		return redirect(routes.CtrlPost.listPost());
 	}  
 	

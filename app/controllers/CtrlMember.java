@@ -4,6 +4,7 @@ import java.util.List;
 
 import models.Member;
 import models.Post;
+import models.Profile;
 import models.User;
 import akka.io.Tcp.Bind;
 import controllers.Application;
@@ -17,12 +18,12 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 public class CtrlMember extends Controller {
 	
-	static Form<User> userForm = Form.form(User.class);
-	static String member;       
+	static Form<User> userForm = Form.form(User.class);     
 	
 	public static Result members() {
     	List <Post> posts;
     	posts  = Post.all();
+    	String member = session().get("Connected");
 		return ok(members.render(member,posts));
     }
 	
@@ -30,9 +31,7 @@ public class CtrlMember extends Controller {
     	if(request().accepts("application/json"))
         {
         	Member member;
-        	//System.out.print("OK");
         	JsonNode body = request().body().asJson();
-        	//System.out.print(body.get("login").asText());
         	member = Member.getMember(body.get("login").asText());
         	return ok(profile.render(member));
         }
@@ -44,11 +43,11 @@ public class CtrlMember extends Controller {
     }
 	
 	public static Result signin() {	
-        return ok(signin.render(userForm));
+        return ok(signin.render());
     }	
 	
 	public static Result logout() {	
-        return ok(signin.render(userForm));
+        return ok(signin.render());
     }
 	
     public static Result submitMember() {
@@ -61,7 +60,10 @@ public class CtrlMember extends Controller {
         	member.setEmail(body.get("email").asText());
         	member.setMotPasse(body.get("motPasse").asText());
         	member.save();
-            return ok();
+        	
+        	Profile profile = new Profile();
+        	profile.setMember(member);
+        	profile.save();
         }
         return badRequest();
     }
@@ -69,8 +71,8 @@ public class CtrlMember extends Controller {
     public static Result submitSignin(){
     	JsonNode body = request().body().asJson();
     	if(Member.isMember(body.get("login").asText(), body.get("motPasse").asText())){
-    		member = body.get("login").asText();
-    		session("Connected",member);
+    		String member = body.get("login").asText();
+    		session().put("Connected",member);
     		return ok("ok");
     	}
     	else{

@@ -16,20 +16,27 @@ GET     /assets/*file               controllers.Assets.at(path="/public", file)
 GET		/members					controllers.CtrlMember.members()
 POST	/profile					controllers.CtrlMember.profile()
 
+# Routes vers les actions sur l'inscription.
 GET     /signup                   	controllers.CtrlMember.signup()
 POST    /signup                   	controllers.CtrlMember.submitMember()
 
+# Routes vers les actions sur la connexion.
 GET 	/signin						controllers.CtrlMember.signin()
 POST    /signin						controllers.CtrlMember.submitSignin()
-
 GET     /logout						controllers.CtrlMember.logout()
 
-
+# Routes vers les actions sur les posts.
 GET     /post						controllers.CtrlPost.listPost()
+GET     /wall						controllers.CtrlPost.wall()
 POST    /post						controllers.CtrlPost.submitPost()
+POST    /deletePost					controllers.CtrlPost.deletePost()
+POST    /likePost					controllers.CtrlPost.likePost()
 
-GET    	/comment					controllers.CtrlComment.getComments()
+# Routes vers les actions sur les commentaires.
+GET    	/comments					controllers.CtrlComment.getComments()
 POST    /comment					controllers.CtrlComment.submitComment()
+POST    /deleteComment				controllers.CtrlComment.deleteComment()
+POST    /likeComment				controllers.CtrlComment.likeComment()
 
 
 

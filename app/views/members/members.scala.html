@@ -1,21 +1,21 @@
 @(login : String, posts:List[Post])
 @main("KTwiter"){
-<header> @mheader(login) </header>
-<section>
-	<article>	
-		<div class="span12">
-			<form class="form-horizontal">
-			<input type="text" id="inputAuteur" class="span2 hidden" value=@login>
-			<input type="text" id="inputPost" class="span11" placeholder="What's on your mind?">
-			<button type="submit" class="btn btn-primary btn-post-submit">Post !</button>
-			</form>
+<header class="row"> @mheader(login) </header>
+<nav class="row">
+	<form class="form-horizontal">
+		<div class="input-group input-group-sm col-sm-8 col-sm-offset-2">
+			<input type="text" class="form-control" id="inputPost" placeholder="What's on your mind?">
+			<div class="input-group-btn">
+    			<button class="btn btn-primary btn-post-submit">Post !</button>
+  			</div>
 		</div>
-		<div id="div_posts" class="span12">
-		 	@listposts(posts)
-		</div>
-		
+	</form>
+</nav>
+</br>
+<section class="row">
+	<article class="container col-md-8 col-md-offset-2" id="div_posts">
+		 @listposts(posts)
 	</article>
-	<aside>@aside()</aside>
 </section>
-<footer> </footer>
+<footer class="row"> </footer>
 }
