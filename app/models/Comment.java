@@ -9,6 +9,7 @@ import javax.persistence.Table;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import play.api.mvc.Content;
 import play.db.ebean.Model;
 import play.db.ebean.Model.Finder;
 import models.Member;
@@ -78,6 +79,7 @@ public class Comment extends Model{
 	public static Finder<Long, Comment> find = new Finder<Long, Comment>(Long.class, Comment.class);
 	
 	public static List<Comment> all(){
+		
 		return find.all();
 	}
 	

@@ -2,41 +2,60 @@ package controllers;
 
 import java.util.List;
 
-import models.Member;
-import models.Post;
-import models.Profile;
-import models.User;
-import akka.io.Tcp.Bind;
-import controllers.Application;
-import play.data.Form;
+import models.*;
 import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.*;
-import views.html.members.*;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
 public class CtrlMember extends Controller {
-	
-	static Form<User> userForm = Form.form(User.class);     
-	
+		
 	public static Result members() {
-    	List <Post> posts;
-    	posts  = Post.all();
+    	List <Member> members;
+    	members  = Member.all();
     	String member = session().get("Connected");
-		return ok(members.render(member,posts));
+		return ok();
     }
 	
 	public static Result profile() {
     	if(request().accepts("application/json"))
         {
-        	Member member;
+        	Member autor;
+        	String member = session().get("Connected");
         	JsonNode body = request().body().asJson();
-        	member = Member.getMember(body.get("login").asText());
-        	return ok(profile.render(member));
+        	autor = Member.getMember(body.get("login").asText());
+        	return ok(profile.render(member,autor));
         }
     	return badRequest();
     }
+	
+	public static Result viewProfile() {
+    	if(request().accepts("application/json"))
+        {
+        	Member autor;
+        	String member = session().get("Connected");
+        	JsonNode body = request().body().asJson();
+        	autor = Member.getMember(member);
+        	return ok(profile.render(member,autor));
+        }
+    	return badRequest();
+    }
+	
+	public static Result editProfile() {
+    	if(request().accepts("application/json"))
+        {
+        	Member member;
+        	member = Member.getMember(session().get("Connected"));
+        	return ok(editprofile.render(member));
+        }
+    	return badRequest();
+    }
+	
+	public static Result updateProfile() {
+    	return TODO;
+    }
+	
 	
 	public static Result signup() {	
         return ok(signup.render());
@@ -47,7 +66,8 @@ public class CtrlMember extends Controller {
     }	
 	
 	public static Result logout() {	
-        return ok(signin.render());
+		session().clear();	
+		return redirect(routes.Application.index());
     }
 	
     public static Result submitMember() {
@@ -62,8 +82,9 @@ public class CtrlMember extends Controller {
         	member.save();
         	
         	Profile profile = new Profile();
+        	profile.setRole("Member");
         	profile.setMember(member);
-        	profile.save();
+        	Profile.setProfile(profile);
         }
         return badRequest();
     }
@@ -73,11 +94,8 @@ public class CtrlMember extends Controller {
     	if(Member.isMember(body.get("login").asText(), body.get("motPasse").asText())){
     		String member = body.get("login").asText();
     		session().put("Connected",member);
-    		return ok("ok");
     	}
-    	else{
-    		return ok("nok");
-    	}
+    	return redirect(routes.Application.index());
     }
     
     public static Result editMember(){

@@ -3,30 +3,35 @@ package controllers;
 import java.util.List;
 
 import models.*;
-import akka.io.Tcp.Bind;
-import controllers.Application;
-import controllers.CtrlMember;
-import play.data.Form;
-import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.*;
-import views.html.members.*;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
 public class CtrlPost extends Controller {
 	
-	public static Result listPost() {
+	public static Result getPosts() {
     	List <Post> posts;
     	posts  = Post.all();
-		return ok(listposts.render(posts));
+    	String member = session().get("Connected");
+		return ok(views.html.posts.render(member,posts));
 	}
+	
+    public static Result search() {
+    	List <Post> posts;
+      	JsonNode body = request().body().asJson();
+      	Member member = Member.getMember(body.get("search").asText());
+		posts  = Post.getPostsByM(member);
+		return ok(views.html.posts.render(session().get("Connected"),posts));
+    }
 	
 	public static Result wall() {
     	List <Post> posts;
-    	posts  = Post.getPostsByM(Member.getMember(session().get("Connected")));
-		return ok(listposts.render(posts));
+    	String member = session().get("Connected");
+    	posts  = Post.getPostsByM(Member.getMember(member));
+    	
+		return ok(views.html.posts.render(member,posts));
 	}
 	
 	public static Result likePost() {
@@ -34,14 +39,14 @@ public class CtrlPost extends Controller {
 		Post post = Post.getPost(body.get("post-id").asInt());
 		post.setLikePost(post.getLikePost()+1);
 		post.update();
-		return redirect(routes.CtrlPost.listPost());
+		return redirect(routes.CtrlPost.getPosts());
 	}
 	
 	public static Result deletePost() {
 		JsonNode body = request().body().asJson();
 		Post post = Post.getPost(body.get("post-id").asInt());
 		post.delete();
-		return redirect(routes.CtrlPost.listPost());
+		return redirect(routes.CtrlPost.getPosts());
 	}
 	
 	public static Result submitPost() {	
@@ -50,7 +55,7 @@ public class CtrlPost extends Controller {
     	post.setContent(body.get("post").asText());
     	post.setAutor(Member.getMember(session().get("Connected")));
     	Post.setPost(post);
-		return redirect(routes.CtrlPost.listPost());
+		return redirect(routes.CtrlPost.getPosts());
 	}  
 	
 }

@@ -23,8 +23,9 @@ public class Profile extends Model{
 	private String sexe;
 	@OneToOne
 	private Member member;
-	private String type;
+	private String role;
 	private Date dateNaissance;
+	private Date dateInscription;
 	
 	// Getters and Setters ================================================
 	
@@ -59,11 +60,11 @@ public class Profile extends Model{
 	public void setMember(Member member) {
 		this.member = member;
 	}
-	public String getType() {
-		return type;
+	public String getRole() {
+		return role;
 	}
-	public void setType(String type) {
-		this.type = type;
+	public void setRole(String role) {
+		this.role = role;
 	}
 	public Date getDateNaissance() {
 		return dateNaissance;
@@ -71,16 +72,31 @@ public class Profile extends Model{
 	public void setDateNaissance(Date dateNaissance) {
 		this.dateNaissance = dateNaissance;
 	}
+	public Date getDateInscription() {
+		return dateInscription;
+	}
+	public void setDateInscription(Date dateInscription) {
+		this.dateInscription = dateInscription;
+	}	
 	
 	// Methodes statics ====================================================================================
 	
+
+
+
 	public static Finder<Long, Profile> find = new Finder<Long, Profile>(Long.class, Profile.class);
 	
 	public static List<Profile> all(){
 		return find.all();
 	}
 	
+	
 	public static Profile getProfile(Member member){
 		return find.where().eq("member",member).findUnique();
 	}
+	
+	public static void setProfile(Profile profile){
+		profile.dateInscription = new Date();
+		profile.save();
+	}	
 }

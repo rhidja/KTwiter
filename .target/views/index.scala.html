@@ -1,8 +1,30 @@
+@(member : String, lposts:List[Post])
+
 @main("KTwiter") {
-	<header class="row"> @header()</header>
+	<header class="row"> 
+		@header(member)
+	</header>
+	<nav class="row">
+		@if(member!=null){
+		<form class="form form-signup" role="form">
+			<div class="form-group">
+				<div class="input-group col-md-8 col-md-offset-2">
+					<input type="text" class="form-control"  id="ipt-post" placeholder="What's on your mind?" autofocus/>
+					<a href="#" class="input-group-addon btn btn-sm btn-primary btn-block btn-post-submit" role="button">Post !</a>
+				</div>
+			</div>
+		</form>
+		}
+	</nav>
 	<section class="row">
-			<article id="article" class="span10">@article()</article>
-			<aside class="span1">@aside()</aside>
+		<article id="article" class="container col-md-8 col-md-offset-2">
+			@if(member==null){
+				@signin()
+			}else{
+				@posts(member,lposts)
+			}	
+		</article>
 	</section>
-	<footer class="row"> </footer>
+	<footer class="row">
+	</footer>
 }

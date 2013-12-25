@@ -6,7 +6,7 @@
 GET     /                           controllers.Application.index()
 GET     /about						controllers.Application.about()
 GET     /contact					controllers.Application.contact()
-GET     /admin						controllers.Application.admin()
+GET     /admin						controllers.Application.admin()					
 
 
 # Map static resources from the /public folder to the /assets URL path
@@ -15,6 +15,9 @@ GET     /assets/*file               controllers.Assets.at(path="/public", file)
 # Get members home page.
 GET		/members					controllers.CtrlMember.members()
 POST	/profile					controllers.CtrlMember.profile()
+GET		/viewprofile				controllers.CtrlMember.viewProfile()
+GET		/editprofile				controllers.CtrlMember.editProfile()
+POST	/updateprofile				controllers.CtrlMember.updateProfile()
 
 # Routes vers les actions sur l'inscription.
 GET     /signup                   	controllers.CtrlMember.signup()
@@ -26,11 +29,12 @@ POST    /signin						controllers.CtrlMember.submitSignin()
 GET     /logout						controllers.CtrlMember.logout()
 
 # Routes vers les actions sur les posts.
-GET     /post						controllers.CtrlPost.listPost()
+GET     /posts						controllers.CtrlPost.getPosts()
 GET     /wall						controllers.CtrlPost.wall()
 POST    /post						controllers.CtrlPost.submitPost()
 POST    /deletePost					controllers.CtrlPost.deletePost()
 POST    /likePost					controllers.CtrlPost.likePost()
+POST 	/search						controllers.CtrlPost.search()
 
 # Routes vers les actions sur les commentaires.
 GET    	/comments					controllers.CtrlComment.getComments()

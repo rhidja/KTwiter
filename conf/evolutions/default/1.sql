@@ -38,8 +38,9 @@ create table Profile (
   prenom                    varchar(255),
   sexe                      varchar(255),
   member_id                 bigint,
-  type                      varchar(255),
+  role                      varchar(255),
   date_naissance            timestamp,
+  date_inscription          timestamp,
   constraint pk_Profile primary key (id))
 ;
 

@@ -22,7 +22,7 @@ $(document).ready(function($) {
     });
 	
 	// Se connecter.
-	$('#article').on("click",".signin_frm",function(e) {
+	$('article').on("click",".signin_frm",function(e) {
 		$login = $("#ipt_login").val();
         $motPasse = $("#ipt_password").val();
         $.ajax({
@@ -31,18 +31,21 @@ $(document).ready(function($) {
                 contentType : "application/json; charset=UTF-8",
                 data : JSON.stringify({"login" : $login,"motPasse" : $motPasse}),
                 success : function(data) {
-                	if(data=="ok"){
-                		window.location = '/members';
-                	}
-                }	
+                	window.location ='/';
+                }
         });
         return false;
 	});
 	
 	// Se deconnecter.
-	$("#article").click(".btn-logout",function(e) {
-		$("#id_login").load('/logout');
-    });
+	$(".btn-logout").on("click",function(e) {
+		$.ajax({
+			url : '/logout',
+            success : function(data) {
+            	window.location ='/';
+            }
+		});
+	});
 
 //=================================================================================================================
 //==========================================     Member    ========================================================
@@ -76,6 +79,21 @@ $(document).ready(function($) {
 		alert("OK");
     	//$('article').load('/signup');
     });
+	
+	$('.btn-search').on("click",function(e) {
+		$search = $("#ipt-search").val();
+		alert($search);
+		$.ajax({
+            type : 'POST',
+            url : '/search',
+            contentType : "application/json; charset=UTF-8",
+            data : JSON.stringify({"search" : $search}),
+            success : function(data) {
+            	$('article').html(data);
+            }
+        });
+		return false;
+    });	
 
 //==================================================================================================================
 //================================================   Posts   =======================================================
@@ -84,16 +102,16 @@ $(document).ready(function($) {
 	// Faire un post. 	
 	
 	$(".btn-post-submit").on("click",function(e) {
-		$auteur = $("#inputAuteur").val();
-        $post = $("#inputPost").val();
+        $post = $("#ipt-post").val();
         $.ajax({
                 type : 'POST',
                 url : '/post',
                 contentType : "application/json; charset=UTF-8",
-                data : JSON.stringify({"auteur" : $auteur,"post" : $post}),
+                data : JSON.stringify({"post" : $post}),
                 success : function(data) {
-                	$("#div_posts").html(data);
-                	$("#inputAuteur").empty();
+                	$("#ipt-post").val('');
+                	$("article").html(data);
+                	
                 }
         });
         return false;
@@ -104,10 +122,10 @@ $(document).ready(function($) {
 	$(".btn-all").click(function(e) {
 		$.ajax({
             type : 'GET',
-            url : '/post',
+            url : '/posts',
             contentType : "application/json; charset=UTF-8",
             success : function(data) {
-            	$("#div_posts").html(data);
+            	$('article').html(data);
             }
         });
 	});	
@@ -120,13 +138,13 @@ $(document).ready(function($) {
             url : '/wall',
             contentType : "application/json; charset=UTF-8",
             success : function(data) {
-            	$("#div_posts").html(data);
+            	$('article').html(data);
             }
         });
 	});
 
 	// Faire un like pour un post.
-	$('article').on("click",".pst-like",function(e) {
+	$('section').on("click",".pst-like",function(e) {
 		$postid  = $(this).parents(".post").find("#post-id").val();
 		$.ajax({
             type : 'POST',
@@ -134,14 +152,14 @@ $(document).ready(function($) {
             contentType : "application/json; charset=UTF-8",
             data : JSON.stringify({"post-id" : $postid}),
             success : function(data) {
-            	$("#div_posts").html(data);
+            	$("article").html(data);
             }
         });
         return false;		
 	});
 	
 	// Supprimer un post.
-	$('article').on("click",".pst-delete",function(e) {
+	$('section').on("click",".pst-delete",function(e) {
 		$postid  = $(this).parents(".post").find("#post-id").val();
 		//*
 		$.ajax({
@@ -150,7 +168,7 @@ $(document).ready(function($) {
             contentType : "application/json; charset=UTF-8",
             data : JSON.stringify({"post-id" : $postid}),
             success : function(data) {
-            	$("#div_posts").html(data);
+            	$("#article").html(data);
             }
         });
         //*/
@@ -179,7 +197,7 @@ $(document).ready(function($) {
             contentType : "application/json; charset=UTF-8",
             data : JSON.stringify({"post-id" : $postid,"comment" : $comment}),
             success : function(data) {
-            	$("#div_posts").html(data);
+            	$("article").html(data);
             }
         });
         return false;
@@ -194,7 +212,7 @@ $(document).ready(function($) {
             contentType : "application/json; charset=UTF-8",
             data : JSON.stringify({"comment-id" : $commentid}),
             success : function(data) {
-            	$("#div_posts").html(data);
+            	$("article").html(data);
             }
         });
         return false;		
@@ -210,20 +228,19 @@ $(document).ready(function($) {
             contentType : "application/json; charset=UTF-8",
             data : JSON.stringify({"comment-id" : $commentid}),
             success : function(data) {
-            	$("#div_posts").html(data);
+            	$("article").html(data);
             }
         });
         return false;		
 	});
 	
 //=================================================================================================================
-//==========================================    Members   =========================================================
+//==========================================    Profile   =========================================================
 //=================================================================================================================	
 	
 	// Afficher un profile.
 	$('article').on("click",".autor-login",function(e) {
 		$login= $(this).find("b").text();
-		//*
 		$.ajax({
             type : 'POST',
             url : '/profile',
@@ -233,16 +250,26 @@ $(document).ready(function($) {
             	$('article').html(data);
             }
         });
-        //*/
 	});
 	
-	$("#article").on("click",".view-profile",function(e) {
-		$login= $(this).parent().prevAll(".login").text();
+	//Afficher le profile du membere connecte.
+	$(".view-profile").on("click",function(e) {
 		$.ajax({
-            type : 'POST',
-            url : '/profile',
+            type : 'GET',
+            url : '/viewprofile',
             contentType : "application/json; charset=UTF-8",
-            data : JSON.stringify({"login" : $login}),
+            success : function(data) {
+            	$('article').html(data);
+            }
+        });
+	});
+	
+	//Afficher le formulaire pour la modification du profile du membre connecte.
+	$("article").on("click",".btn-edit-profile",function(e) {
+		$.ajax({
+            type : 'GET',
+            url : '/editprofile',
+            contentType : "application/json; charset=UTF-8",
             success : function(data) {
             	$('article').html(data);
             }
