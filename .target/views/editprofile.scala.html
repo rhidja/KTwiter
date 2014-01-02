@@ -1,26 +1,24 @@
 @(member : Member)
-
     <div class="row">
         <div class="col-md-8 col-md-offset-2 well">
             <legend><a href="#"><i class="glyphicon glyphicon-edit"></i></a> Edit your profile !</legend>
-            <form action="#" method="post" class="form" role="form">
+            
+            <form class="form" role="form">
             <div class="row">
                 <div class="col-md-6">
-                    <input class="form-control" name="firstname" placeholder="First Name" type="text"
-                        required autofocus />
+                    <input class="form-control" id="ipt_nom" placeholder="Last Name" type="text" value="@member.getProfile.getNom" required autofocus />
                 </div>
                 <div class="col-md-6">
-                    <input class="form-control" name="lastname" placeholder="Last Name" type="text" required />
+                    <input class="form-control" id="ipt_prenom" placeholder="First Name" type="text" value="@member.getProfile.getPrenom" required />
                 </div>
             </div>
-            <input class="form-control" name="youremail" placeholder="Your Email" type="email" />
-            <input class="form-control" name="reenteremail" placeholder="Re-enter Email" type="email" />
-            <input class="form-control" name="password" placeholder="New Password" type="password" />
-            <label for="">
-                Birth Date</label>
+            <input class="form-control" id="ipt_email" placeholder="Your Email" type="email" value="@member.getEmail"/>
+            <input class="form-control" id="ipt_email2" placeholder="Re-enter Email" type="email" />
+            <input class="form-control" id="ipt_password" placeholder="New Password" type="password" />
+            <label for=""> Birth Date</label>
             <div class="row">
                 <div class="col-md-4">
-                    <select class="form-control">
+                    <select id="ipt_month" class="form-control">
                         <option value="">Month</option>
                         <option value="">-----</option>
                         <option value="1">January</option>
@@ -38,32 +36,33 @@
                     </select>
                 </div>
                 <div class="col-md-4">
-                    <select class="form-control">
+                    <select id="ipt_day" class="form-control">
                         <option value="">Day</option>
-                        <option value="">--</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        
+                        <option value="">---</option>
+                        @for(i<- 1 to 31){
+                        	<option value="@i">@i</option>
+                        }
                     </select>
                 </div>
                 <div class="col-md-4">
-                    <select class="form-control">
-                        <option value="Year">Year</option>
+                    <select id="ipt_year" class="form-control">
+                        <option value="">Year</option>
+                        <option value="">----</option>
+                         @for(i<- 1950 to 2013){
+                         	<option value="@i">@i</option>
+                         }
                     </select>
                 </div>
             </div>
             <label class="radio-inline">
-                <input type="radio" name="sex" id="inlineCheckbox1" value="male" />
-                Male
+                <input type="radio" name="ipt_sex" id="rd_sex1" value="male" @if(member.getProfile.getSexe=="male"){checked}/> Male
             </label>
             <label class="radio-inline">
-                <input type="radio" name="sex" id="inlineCheckbox2" value="female" />
-                Female
+                <input type="radio" name="ipt_sex" id="rd_sex2" value="female" /> Female
             </label>
             <br />
             <br />
-            <button class="btn btn-lg btn-primary btn-block" type="submit">
-                Sign up</button>
+            <button class="btn btn-lg btn-primary btn-block btn-update" type="submit">Update</button>
             </form>
         </div>
     </div>

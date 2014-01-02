@@ -51,9 +51,27 @@ public class CtrlMember extends Controller {
         }
     	return badRequest();
     }
-	
-	public static Result updateProfile() {
-    	return TODO;
+
+    public static Result updateProfile() {
+        
+    	if(request().accepts("application/json"))
+        {
+        	Member member = Member.getMember(session().get("Connected"));
+        	
+        	JsonNode body = request().body().asJson();
+        	member.setEmail(body.get("email").asText());
+        	member.setMotPasse(body.get("password").asText());
+        	//member.update();
+        	
+        	Profile profile = Profile.getProfile(member);
+        	profile.setNom(body.get("nom").asText());
+        	profile.setPrenom(body.get("prenom").asText());
+        	profile.setSexe(body.get("sex").asText());
+//        	profile.setDateNaissance(null);
+//        	profile.set(body.get("").asText());
+        	profile.update();
+        } 
+    	return ok("Ok");
     }
 	
 	

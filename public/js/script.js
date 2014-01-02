@@ -75,6 +75,28 @@ $(document).ready(function($) {
         return false;
 	});
 	
+	$('article').on("click",".btn-update",function(e) {
+		$nom 		= $("#ipt_nom").val();
+		$prenom 	= $("#ipt_prenom").val();
+		$email 		= $("#ipt_email").val();
+		$day 		= $("#ipt_day").val();
+		$month 		= $("#ipt_month").val();
+		$year 		= $("#ipt_year").val();
+        $password 	= $("#ipt_password").val();
+       	if($("input:checked").val()!=null) {$sex = $("input:checked").val();}
+       	else {$sex ="";} 
+        $.ajax({
+        	type : 'POST',
+        	url : '/updateprofile',
+        	contentType : "application/json; charset=UTF-8",
+        	data : JSON.stringify({"nom" : $nom,"prenom" : $prenom,"email" : $email,"password" : $password ,"day" : $day,"month" : $month,"year" : $year,"sex" :$sex}),
+        	success : function(data) {
+//                //$('article').load('article.scala.html');
+        	}
+        });
+        return false;
+	});
+	
 	$('article').on("click",".mbr-delete",function(e) {
 		alert("OK");
     	//$('article').load('/signup');
