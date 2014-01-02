@@ -51,27 +51,9 @@ public class CtrlMember extends Controller {
         }
     	return badRequest();
     }
-
-    public static Result updateProfile() {
-        
-    	if(request().accepts("application/json"))
-        {
-        	Member member = Member.getMember(session().get("Connected"));
-        	
-        	JsonNode body = request().body().asJson();
-        	member.setEmail(body.get("email").asText());
-        	member.setMotPasse(body.get("password").asText());
-        	//member.update();
-        	
-        	Profile profile = Profile.getProfile(member);
-        	profile.setNom(body.get("nom").asText());
-        	profile.setPrenom(body.get("prenom").asText());
-        	profile.setSexe(body.get("sex").asText());
-//        	profile.setDateNaissance(null);
-//        	profile.set(body.get("").asText());
-        	profile.update();
-        } 
-    	return ok("Ok");
+	
+	public static Result updateProfile() {
+    	return TODO;
     }
 	
 	
@@ -103,16 +85,40 @@ public class CtrlMember extends Controller {
         	profile.setRole("Member");
         	profile.setMember(member);
         	Profile.setProfile(profile);
+        	return ok();
         }
-        return badRequest();
+    	else {
+        return badRequest("il faut verifier la requete si elle est en Json");
+    	}
+        
     }
+    public static Result updateprofile() {
+        
+    	return TODO;
+    	//if(request().accepts("application/json"))
+//        {
+//        	Member member =new Member();    
+//        	JsonNode body = request().body().asJson(); 
+//        	member.setLogin(body.get("login").asText());
+//        	member.setEmail(body.get("email").asText());
+//        	member.setMotPasse(body.get("motPasse").asText());
+//        	member.save();
+//        	
+//        	Profile profile = new Profile();
+//        	profile.setRole("Member");
+//        	profile.setMember(member);
+//        	Profile.setProfile(profile);
+//        }
+//        return badRequest();
+    }
+    
     
     public static Result submitSignin(){
     	JsonNode body = request().body().asJson();
     	if(Member.isMember(body.get("login").asText(), body.get("motPasse").asText())){
     		String member = body.get("login").asText();
     		session().put("Connected",member);
-    	}
+    	  	}
     	return redirect(routes.Application.index());
     }
     

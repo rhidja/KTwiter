@@ -12,6 +12,7 @@ $(document).ready(function($) {
     	$('article').load('/contact');
     });
 
+
 //=================================================================================================================
 //==========================================   Connexion   ========================================================
 //=================================================================================================================	
@@ -58,45 +59,69 @@ $(document).ready(function($) {
 	
 	// Ajouter un nouveau membre.
 	$('article').on("click",".btn-submit-member",function(e) {
-		$nom = $("#inputNom").val();
-		$prenom = $("#inputPrenom").val();
+		//$nom = $("#inputNom").val();
+		//$prenom = $("#inputPrenom").val();
 		$login = $("#inputLogin").val();
 		$email = $("#inputEmail").val();
         $motPasse = $("#inputPassword").val();
+		
         $.ajax({
                 type : 'POST',
                 url : '/signup',
                 contentType : "application/json; charset=UTF-8",
-                data : JSON.stringify({"nom" : $nom,"prenom" : $prenom,"login" : $login,"email" : $email,"motPasse" : $motPasse}),
+                data : JSON.stringify({"login" : $login,"email" : $email,"motPasse" : $motPasse}),
                 success : function(data) {
                 	//$('article').load('article.scala.html');
+					$('article').html(data);
+					alert(data);
+					window.location ='/';
+                }
+        });
+        return false;
+	});
+	// Envoyer un message.
+	$('article').on("click",".btn-sbm-message",function(e) {
+		$('#myModal').modal('hide');
+		$titre=$("#idtitre").val();
+		$message = $("#ipt-message").val();
+		$recepteur = $("#idLogin").val();
+		//	alert($message)
+        $.ajax({
+                type : 'POST',
+                url : '/sendmessage',
+                contentType : "application/json; charset=UTF-8",
+                data : JSON.stringify({"titre": $titre, "message" : $message, "recepteur" : $recepteur}),
+                success : function(data) {
+                	$('article').load('profile.scala.html');
+					//$('article').html(data);
+					
+
+					//alert(data);
                 }
         });
         return false;
 	});
 	
-	$('article').on("click",".btn-update",function(e) {
-		$nom 		= $("#ipt_nom").val();
-		$prenom 	= $("#ipt_prenom").val();
-		$email 		= $("#ipt_email").val();
-		$day 		= $("#ipt_day").val();
-		$month 		= $("#ipt_month").val();
-		$year 		= $("#ipt_year").val();
-        $password 	= $("#ipt_password").val();
-       	if($("input:checked").val()!=null) {$sex = $("input:checked").val();}
-       	else {$sex ="";} 
-        $.ajax({
-        	type : 'POST',
-        	url : '/updateprofile',
-        	contentType : "application/json; charset=UTF-8",
-        	data : JSON.stringify({"nom" : $nom,"prenom" : $prenom,"email" : $email,"password" : $password ,"day" : $day,"month" : $month,"year" : $year,"sex" :$sex}),
-        	success : function(data) {
-//                //$('article').load('article.scala.html');
-        	}
+	// Mise à jour du profil
+	/*$('article').on("click",".btn-update",function(e) {
+		$nom = $("#firstname").val();
+		$prenom = $("#lastname").val();
+		//$login = $("#email").val();
+		$email = $("#email").val();
+        //$motPasse = $("#inputPassword").val();
+		alert ($nom);
+         $.ajax({
+                type : 'POST',
+                url : '/updateprofile',
+                contentType : "application/json; charset=UTF-8",
+                data : JSON.stringify({"firstname" : $nom,"lastname" : $prenom,"login" : $login,"email" : $email}),
+                success : function(data) {
+                	//$('article').load('article.scala.html');
+                }
         });
-        return false;
-	});
-	
+       return false; 
+	});*/
+	//
 	$('article').on("click",".mbr-delete",function(e) {
 		alert("OK");
     	//$('article').load('/signup');
@@ -139,6 +164,19 @@ $(document).ready(function($) {
         return false;
 	});
 
+	//Afficher les messages
+	
+	$(".btn-message").click(function(e) {
+		$.ajax({
+            type : 'GET',
+            url : '/messages',
+            contentType : "application/json; charset=UTF-8",
+            success : function(data) {
+            	$('article').html(data);
+            }
+        });
+	});	
+	
 	//Afficher tous les posts
 	
 	$(".btn-all").click(function(e) {
@@ -297,4 +335,38 @@ $(document).ready(function($) {
             }
         });
 	});
+	$("article").on("click",".btn-frm-message",function(e) {
+		$.ajax({
+        
+    type : 'GET',
+            url : '/message',
+            contentType : "application/json; charset=UTF-8",
+            success : function(data) {
+            	$('article').html(data);
+            }
+        });
+	});
+	
 });
+//////////////////// Modal send message /////////////////////////////::::
+
+
+
+
+
+
+
+
+
+
+
+
+//////////////////// End Modal send message ///////////////////////////
+
+
+//////////////////////// Modal read message //////////////////////////////
+
+
+
+
+//////////////////::::::: End Modal read message ///////////////////////////

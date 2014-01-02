@@ -1,0 +1,112 @@
+@(member : String,messages: List[Message], members: List[Member])
+<link rel="stylesheet" media="screen" href="@routes.Assets.at("css/message.css")">
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <span class="glyphicon glyphicon-list"></span>Messages List
+                    <div class="pull-right action-buttons">
+                        <div class="btn-group pull-right">
+                            <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+                                <span class="glyphicon glyphicon-cog" style="margin-right: 0px;"></span>
+                            </button>
+                            <ul class="dropdown-menu slidedown">
+                                <li><a ><span class="glyphicon glyphicon-pencil"></span>Edit</a></li>
+                                <li><a><span class="glyphicon glyphicon-trash"></span>Delete</a></li>
+                                
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                @for((message, i) <- messages.zipWithIndex){
+                <div class="panel-body">
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                                <input type="checkbox" id="check" />
+                                <label  for="checkbox">
+                                    
+                                    <a href="#" class="autor-login">
+                                    <b>@Member.getLoginM(message.getExpediteur)</b></a>
+                                 <button class="btn btn-sm btn-primary " type="button" data-toggle="modal" data-target="#myModal1">   <p>  @message.getTitre</p> </button>
+                                   
+                                </label>
+                            </div>
+                            <div class="pull-right action-buttons">
+                                <a data-target="#myModal1" ><span class="glyphicon glyphicon-pencil" data-target="#myModal1"></span></a>
+                                <a  class="trash"><span class="glyphicon glyphicon-trash"></span></a>
+                              
+                            </div>
+                        </li>
+                        <!-- ********************** Lire Message ****************************************-->
+             <div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                 <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title"> @message.getTitre</h4><br>
+                    </div>
+                <div class="modal-body">
+                   
+                        <form class="form">
+                            
+                            
+                            <textarea class="col-md-4" id="ipt-message" name="ipt-message" style="width: 560px; height: 254px;" value="">@message.getMessage</textarea>
+                            <br>
+                        </form>
+                    
+                </div>
+                    <div class="modal-footer">
+                        <br><br/><button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary "  data-dismiss="modal" data-target="#myModal2">Repondre</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+
+<!-- ********************** Fin lire Message ****************************************-->
+<!-- ********************** Repondre Message ****************************************-->
+
+   <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabe2" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">Repondre à : @Member.getLoginM(message.getExpediteur)</h4>
+                    </div>
+                <div class="modal-body">
+                    <!--<div id="frmMessage" class="col-md-4 row" style="padding-bottom:10">-->
+                        <form class="form">
+                            <input id="idLogin" type="hidden" value="message.getRecepteur">
+                            <input id="idtitre" type="text" value="Re: @message.getTitre">
+                            <textarea class="col-md-4" id="ipt-message" name="ipt-message" placeholder="Type in your message"  style="width: 560px; height: 254px;"></textarea>
+                            <br>
+                        </form>
+                    
+                </div>
+                    <div class="modal-footer">
+                        <br><br/><button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary btn-sbm-message">Send</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+ <!-- ********************** Fin Repondre Message ****************************************-->                         
+                <div class="panel-footer">
+                    <div class="row">
+                        <div class="col-md-6">
+                            
+                        </div>
+                        <div class="col-md-6">
+                            <ul class="pagination pagination-sm pull-right">
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            }
+            </div>
+        
+        </div>
+    
+    </div>
+</div>

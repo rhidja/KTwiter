@@ -6,7 +6,8 @@
 GET     /                           controllers.Application.index()
 GET     /about						controllers.Application.about()
 GET     /contact					controllers.Application.contact()
-GET     /admin						controllers.Application.admin()					
+GET     /admin						controllers.Application.admin()	
+					
 
 
 # Map static resources from the /public folder to the /assets URL path
@@ -41,6 +42,9 @@ GET    	/comments					controllers.CtrlComment.getComments()
 POST    /comment					controllers.CtrlComment.submitComment()
 POST    /deleteComment				controllers.CtrlComment.deleteComment()
 POST    /likeComment				controllers.CtrlComment.likeComment()
+
+GET    	/messages					controllers.CtrlMessage.getFrmMessage()
+POST	/sendmessage				controllers.CtrlMessage.sendMessage()				
 
 
 

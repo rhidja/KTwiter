@@ -1,5 +1,6 @@
 package controllers;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import models.*;
@@ -36,16 +37,32 @@ public class CtrlPost extends Controller {
 	
 	public static Result likePost() {
 		JsonNode body = request().body().asJson();
-		Post post = Post.getPost(body.get("post-id").asInt());
-		post.setLikePost(post.getLikePost()+1);
-		post.update();
-		return redirect(routes.CtrlPost.getPosts());
+		
+		if (Aime.getLike(body.get("post-id").asLong(), Member.getMember(session().get("Connected")))){
+			Post post = Post.getPost(body.get("post-id").asInt());
+			post.setLikePost(post.getLikePost()+1);
+			post.update();
+			Aime aime=new Aime();
+			aime.setpId(body.get("post-id").asInt());
+			aime.setmId(Member.getMember(session().get("Connected")));
+			Aime.setAime(aime);
+			return redirect(routes.CtrlPost.getPosts());
+		}
+		else{
+			Post post = Post.getPost(body.get("post-id").asInt());
+			post.setLikePost(post.getLikePost()-1);
+			post.update();
+			Aime aime=Aime.getAime(body.get("post-id").asInt());
+			aime.delete();
+			return redirect(routes.CtrlPost.getPosts());}
 	}
 	
 	public static Result deletePost() {
 		JsonNode body = request().body().asJson();
 		Post post = Post.getPost(body.get("post-id").asInt());
 		post.delete();
+		Aime aime=Aime.getAime(body.get("post-id").asInt());
+		aime.delete();
 		return redirect(routes.CtrlPost.getPosts());
 	}
 	

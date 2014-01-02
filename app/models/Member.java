@@ -103,7 +103,17 @@ public class Member extends Model{
 		return find.where().eq("login",login).findUnique();
 	}
 	
+	public static String  getLoginM(long idm){
+		return find.where().eq("id",idm).findUnique().login;
+	}
+	public static long getlog(String mem){
+		return find.where().eq("id",mem).findUnique().id;
+		
+		
+	}
 	public static Boolean isMember (String login, String motPasse){
 		return find.where().eq("login",login).eq("motPasse",motPasse).findRowCount()>0;
-	}	
+	}
+
+	
 }

@@ -25,12 +25,28 @@
 							<span class="glyphicon">@post.getComments.size</span>
 						</button>						
 						 | 
+						@if(Aime.getLike(post.getId, Member.getMember(session().get("Connected")))){
 						<button type="button" class="btn btn-primary btn-xs pst-like" title="Like">
 							<span class="glyphicon glyphicon-thumbs-up"></span>
+							
 						</button>
+								}else{
+						<button type="button" class="btn btn-primary btn-xs pst-like" title="Like">
+							<span class="glyphicon glyphicon-thumbs-down"></span>
+							
+						</button>
+
+						}
 						<button type="button" class="btn btn-primary btn-xs">
 							<span class="glyphicon">@post.getLikePost</span>
-						</button>						
+
+						</button>	
+							
+						<!--Ajouter pour tester-->
+						|
+						<button type="button" class="btn btn-primary btn-xs">
+							<span class="glyphicon glyphicon-hand-right"></span>
+						</button>					
 						@if(post.getAutor.getLogin==member){
 						 | 
 						<button type="button" class="btn btn-danger btn-xs pst-delete" title="Delete">

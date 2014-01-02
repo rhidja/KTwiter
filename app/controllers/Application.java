@@ -31,4 +31,7 @@ public class Application extends Controller {
 	public static Result contact() {	
         return ok(contact.render());
     }	
+//	public static Result message() {	
+//        return ok(message.render());
+//    }	
 }

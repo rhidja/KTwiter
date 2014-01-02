@@ -17,9 +17,13 @@ public class Wall extends Model{
 	@GeneratedValue
 	private long id;
 	private String nom;
+	//private Member abonne;
+	//private Member abonnement;
 	@OneToMany
 	private List<Post> posts;
 
+	
+	///////////// Getter and Setter ///////////////////::
 	public long getId() {
 		return id;
 	}
@@ -39,4 +43,18 @@ public class Wall extends Model{
 	public void setPosts(List<Post> posts) {
 		this.posts = posts;
 	}
+	
+//	public String getAbonne() {
+//		return abonne;
+//}
+//	public void setAbonne(String abonne) {
+//		this.abonne = abonne;
+//}
+//	public String getAbonnement() {
+//		return abonnement;
+//}
+//	public void setAbonnement(String abonnement) {
+//		this.abonnement = abonnement;
+//}
+	
 }

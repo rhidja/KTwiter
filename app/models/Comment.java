@@ -40,8 +40,8 @@ public class Comment extends Model{
 	public long getLikeComment() { //like
 		return likeComment;
 	}
-	public void setLikeComment() {
-		this.likeComment++;
+	public void setLikeComment(long likeComment) {
+		this.likeComment = likeComment;
 	}
 	
 	public String getContent() {// Content.

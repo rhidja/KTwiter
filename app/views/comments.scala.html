@@ -17,9 +17,17 @@
 					@com.getContent
 				</div>
 				<div class="action col-md-offset-1">
+					@if(Aime.getLikeC(com.getId, Member.getMember(session().get("Connected")))){
 					<button type="button" class="btn btn-primary btn-xs cmt-like" title="Like">
 						<span class="glyphicon glyphicon-thumbs-up"></span>
                     </button>
+                    		}else{
+                    <button type="button" class="btn btn-primary btn-xs cmt-like" title="Like">
+						<span class="glyphicon glyphicon-thumbs-down"></span>
+                    </button>
+
+                    	}
+
 					<button type="button" class="btn btn-primary btn-xs">
 						<span class="glyphicon">@com.getLikeComment</span>
 					</button>
